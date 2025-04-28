@@ -116,7 +116,7 @@ esp_err_t esp_lcd_touch_new_i2c_ft5x06(const esp_lcd_panel_io_handle_t io, const
 	}
 
     /* Communication interface */
-    esp_lcd_touch_ft5x06->io = (esp_lcd_panel_io_t *) io;
+    esp_lcd_touch_ft5x06->io = io;
 
 
     /* Only supported callbacks are set */
@@ -192,7 +192,7 @@ esp_err_t esp_lcd_touch_new_i2c_ft5x06(const esp_lcd_panel_io_handle_t io, const
 		return(ret);
 	}
 
-    out_touch = esp_lcd_touch_ft5x06;
+    *out_touch = esp_lcd_touch_ft5x06;
 
     return ret;
 }
