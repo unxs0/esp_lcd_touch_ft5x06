@@ -14,6 +14,10 @@
 #include "esp_log.h"
 #include "esp_lcd_touch.h"
 
+#ifndef CONFIG_ESP_LCD_TOUCH_MAX_POINTS
+#define CONFIG_ESP_LCD_TOUCH_MAX_POINTS 1
+#endif
+
 static const char *TAG = "TP";
 
 /*******************************************************************************

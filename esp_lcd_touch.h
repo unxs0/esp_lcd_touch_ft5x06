@@ -19,6 +19,10 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
 
+#ifndef CONFIG_ESP_LCD_TOUCH_MAX_POINTS
+#define CONFIG_ESP_LCD_TOUCH_MAX_POINTS 1
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
