@@ -110,10 +110,7 @@ esp_err_t esp_lcd_touch_new_i2c_ft5x06(const esp_lcd_panel_io_handle_t io, const
     /* Prepare main structure */
     esp_lcd_touch_handle_t esp_lcd_touch_ft5x06 = (esp_lcd_touch_handle_t) heap_caps_calloc(1, sizeof(esp_lcd_touch_t), MALLOC_CAP_DEFAULT);
     if(!esp_lcd_touch_ft5x06)
-	{
-		Serial.printf("%s no mem for FT5x06 controller\n",TAG);
 		return(ESP_ERR_NO_MEM);
-	}
 
     /* Communication interface */
     esp_lcd_touch_ft5x06->io = io;
@@ -140,7 +137,6 @@ esp_err_t esp_lcd_touch_new_i2c_ft5x06(const esp_lcd_panel_io_handle_t io, const
         ret = gpio_config(&int_gpio_config);
         if(ret!=ESP_OK)
 		{
-			Serial.printf("%s GPIO config failed\n",TAG);
         	if (esp_lcd_touch_ft5x06) {
 				esp_lcd_touch_ft5x06_del(esp_lcd_touch_ft5x06);
         	}
@@ -162,7 +158,6 @@ esp_err_t esp_lcd_touch_new_i2c_ft5x06(const esp_lcd_panel_io_handle_t io, const
         ret = gpio_config(&rst_gpio_config);
         if(ret!=ESP_OK)
 		{
-			Serial.printf("%s GPIO config failed\n",TAG);
 			if (esp_lcd_touch_ft5x06) {
 				esp_lcd_touch_ft5x06_del(esp_lcd_touch_ft5x06);
 			}
@@ -174,7 +169,6 @@ esp_err_t esp_lcd_touch_new_i2c_ft5x06(const esp_lcd_panel_io_handle_t io, const
     ret = touch_ft5x06_reset(esp_lcd_touch_ft5x06);
     if(ret!=ESP_OK)
 	{
-		Serial.printf("%s FT5x06 reset failed\n",TAG);
         if (esp_lcd_touch_ft5x06) {
             esp_lcd_touch_ft5x06_del(esp_lcd_touch_ft5x06);
         }
@@ -185,7 +179,6 @@ esp_err_t esp_lcd_touch_new_i2c_ft5x06(const esp_lcd_panel_io_handle_t io, const
     ret = touch_ft5x06_init(esp_lcd_touch_ft5x06);
     if(ret!=ESP_OK)
 	{
-		Serial.printf("%s FT5x06 init failed\n",TAG);
         if (esp_lcd_touch_ft5x06) {
             esp_lcd_touch_ft5x06_del(esp_lcd_touch_ft5x06);
         }
@@ -209,7 +202,6 @@ static esp_err_t esp_lcd_touch_ft5x06_read_data(esp_lcd_touch_handle_t tp)
     err = touch_ft5x06_i2c_read(tp, FT5x06_TOUCH_POINTS, &points, 1);
     if(err!=ESP_OK)
 	{
-		Serial.printf("%s I2C read error!",TAG);
 		return(err);
 	}
 
@@ -223,7 +215,6 @@ static esp_err_t esp_lcd_touch_ft5x06_read_data(esp_lcd_touch_handle_t tp)
     err = touch_ft5x06_i2c_read(tp, FT5x06_TOUCH1_XH, data, 6 * points);
     if(err!=ESP_OK)
 	{
-		Serial.printf("%s I2C read error!",TAG);
 		return(err);
 	}
 
@@ -344,17 +335,11 @@ static esp_err_t touch_ft5x06_reset(esp_lcd_touch_handle_t tp)
     if (tp->config.rst_gpio_num != GPIO_NUM_NC) {
 		ret=gpio_set_level(tp->config.rst_gpio_num, tp->config.levels.reset);
         if(ret!=ESP_OK)
-		{
-			Serial.printf("%s GPIO set level error!",TAG);
 			return(ret);
-		}
         vTaskDelay(pdMS_TO_TICKS(10));
 		ret=gpio_set_level(tp->config.rst_gpio_num, !tp->config.levels.reset);
         if(ret!=ESP_OK)
-		{
-			Serial.printf("%s GPIO set level error!",TAG);
 			return(ret);
-		}
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 
